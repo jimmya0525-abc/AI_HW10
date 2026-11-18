@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>超音波影像是什麼？—— 聲音的視覺魔法</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    .slide-transition {
+      transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: rgba(156, 163, 175, 0.4);
+      border-radius: 3px;
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col justify-between selection:bg-cyan-500 selection:text-white">
+
+  <!-- Top Navigation & Progress Bar -->
+  <header class="w-full border-b border-slate-800 bg-slate-900/80 backdrop-blur px-6 py-4 sticky top-0 z-50 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center font-bold text-white shadow-lg shadow-cyan-500/20">
+        US
+      </div>
+      <div>
+        <h1 class="text-sm font-semibold tracking-wide text-slate-200">醫學超音波影像科普教學</h1>
+        <p class="text-xs text-slate-400">基於 Karpathy LLM Wiki 知識庫編譯產出</p>
+      </div>
+    </div>
+
+    <!-- Progress indicator -->
+    <div class="flex items-center gap-4">
+      <span id="slideCounter" class="text-xs font-mono px-2.5 py-1 rounded bg-slate-800 text-cyan-400 border border-slate-700">1 / 8</span>
+      <div class="w-32 h-1.5 bg-slate-800 rounded-full overflow-hidden">
+        <div id="progressBar" class="h-full bg-gradient-to-r from-cyan-400 to-blue-500 transition-all duration-300" style="width: 12.5%;"></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Slide Canvas Container -->
+  <main class="flex-1 max-w-5xl w-full mx-auto p-4 md:p-8 flex items-center justify-center">
+    
+    <!-- SLIDE 1: Title -->
+    <section class="slide-pane w-full max-w-4xl bg-slate-900 border border-slate-800 rounded-2xl p-8 md:p-12 shadow-2xl relative overflow-hidden" data-slide="1">
+      <div class="absolute -top-24 -right-24 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/80 border border-cyan-800/60 text-cyan-400 text-xs font-medium mb-6">
+        <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+        從零開始的醫學影像通識
+      </div>
+      <h2 class="text-3xl md:text-5xl font-extrabold text-white leading-tight mb-4 tracking-tight">
+        超音波影像是什麼？<br>
+        <span class="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-sky-300 to-blue-500">
+          把「聲音」變成畫面的醫學魔法
+        </span>
+      </h2>
+      <p class="text-slate-300 text-base md:text-lg leading-relaxed max-w-2xl mb-8">
+        你看過產檢時寶寶在肚子裡揮手的畫面嗎？超音波沒有針、沒有輻射，只要塗上一層涼涼的凝膠，就能看穿人體內部。它是怎麼做到的？
+      </p>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 border-t border-slate-800 pt-6">
+        <div class="p-3 bg-slate-800/40 rounded-xl border border-slate-800">
+          <div class="text-cyan-400 font-bold text-lg mb-1">零游離輻射</div>
+          <div class="text-xs text-slate-400">孕婦與胎兒首選的無害安全檢查</div>
+        </div>
+        <div class="p-3 bg-slate-800/40 rounded-xl border border-slate-800">
+          <div class="text-cyan-400 font-bold text-lg mb-1">即時動態看</div>
+          <div class="text-xs text-slate-400">每秒 30~100 幀，活生生看心臟跳動</div>
+        </div>
+        <div class="p-3 bg-slate-800/40 rounded-xl border border-slate-800">
+          <div class="text-cyan-400 font-bold text-lg mb-1">聲波反射法</div>
+          <div class="text-xs text-slate-400">不是照光拍透視，而是傾聽回聲</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 2: Analogy -->
+    <section class="slide-pane hidden w-full max-w-4xl bg-slate-900 border border-slate-800 rounded-2xl p-8 md:p-12 shadow-2xl relative" data-slide="2">
+      <div class="text-cyan-400 text-xs font-semibold tracking-wider uppercase mb-2">生活比喻篇</div>
+      <h2 class="text-2xl md:text-4xl font-bold text-white mb-4">大自然與科技的回聲智慧</h2>
+      <p class="text-slate-300 text-sm md:text-base leading-relaxed mb-6">
+        超音波的本質就是「回聲定位（Echolocation）」。在醫學之前，大自然與工程師早就用過無數次：
+      </p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div class="bg-slate-800/50 p-5 rounded-xl border border-slate-700/60 hover:border-cyan-500/50 transition">
+          <div class="text-3xl mb-3">🦇</div>
+          <h3 class="text-white font-semibold text-base mb-1">蝙蝠黑夜捕食</h3>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            在全黑洞穴中發出人類聽不到的高頻吱吱聲，靠反射聲波精準捕捉飛蛾的位置與速度。
+          </p>
+        </div>
+        <div class="bg-slate-800/50 p-5 rounded-xl border border-slate-700/60 hover:border-cyan-500/50 transition">
+          <div class="text-3xl mb-3">🚗</div>
+          <h3 class="text-white font-semibold text-base mb-1">汽車倒車雷達</h3>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            保險桿上的感測器發射超音波脈衝。距離障礙物越近，回聲返回越快，「嗶嗶嗶」頻率越高。
+          </p>
+        </div>
+        <div class="bg-slate-800/50 p-5 rounded-xl border border-slate-700/60 hover:border-cyan-500/50 transition">
+          <div class="text-3xl mb-3">🩺</div>
+          <h3 class="text-white font-semibold text-base mb-1">醫用超音波探頭</h3>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            醫生手拿的探頭就像成百上千個微型倒車雷達，同時向人體發射數百萬次高頻聲波並監聽回音。
+          </p>
+        </div>
+      </div>
+      <div class="mt-6 p-4 bg-cyan-950/40 border border-cyan-800/50 rounded-xl text-xs text-cyan-200">
+        💡 <strong>為什麼叫「超」音波？</strong> 人耳極限是 20,000 Hz（赫茲）。醫療超音波頻率高達 <strong>2,000,000 ~ 15,000,000 Hz (2~15 MHz)</strong>，頻率越高，解析度越細緻，但人耳完全聽不到。
+      </div>
+    </section>
+
+    <!-- SLIDE 3: How it Works (Physics) -->
+    <section class="slide-pane hidden w-full max-w-4xl bg-slate-900 border border-slate-800 rounded-2xl p-8 md:p-12 shadow-2xl relative" data-slide="3">
+      <div class="text-cyan-400 text-xs font-semibold tracking-wider uppercase mb-2">原理剖析篇</div>
+      <h2 class="text-2xl md:text-4xl font-bold text-white mb-4">探頭如何把聲音畫成一張圖？</h2>
+      <p class="text-slate-300 text-sm md:text-base mb-6">
+        核心公式極度簡單：<strong>距離 = (聲速 × 飛行時間) ÷ 2</strong>。
+      </p>
+
+      <div class="space-y-4">
+        <div class="flex items-start gap-4 p-4 rounded-xl bg-slate-800/40 border border-slate-800">
+          <div class="w-8 h-8 rounded-full bg-cyan-500/20 text-cyan-400 font-bold flex items-center justify-center shrink-0">1</div>
+          <div>
+            <h4 class="text-white font-semibold text-sm">壓電效應 (Piezoelectric Effect) —— 聲電轉換</h4>
+            <p class="text-xs text-slate-400 mt-1">探頭內的晶片通電時會劇烈震動發出聲波；接收到反彈回來的回聲時，又會把震動轉為微弱微伏特電壓訊號。</p>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-4 p-4 rounded-xl bg-slate-800/40 border border-slate-800">
+          <div class="w-8 h-8 rounded-full bg-cyan-500/20 text-cyan-400 font-bold flex items-center justify-center shrink-0">2</div>
+          <div>
+            <h4 class="text-white font-semibold text-sm">均勻聲速假設 (Sound Speed in Tissue)</h4>
+            <p class="text-xs text-slate-400 mt-1">儀器預設人體軟組織聲速為 <strong>1540 公尺/秒</strong>。如果回聲在 13 微秒後返回，儀器就知道反射點剛好在深度 1 公分處！</p>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-4 p-4 rounded-xl bg-slate-800/40 border border-slate-800">
+          <div class="w-8 h-8 rounded-full bg-cyan-500/20 text-cyan-400 font-bold flex items-center justify-center shrink-0">3</div>
+          <div>
+            <h4 class="text-white font-semibold text-sm">為什麼要塗「傳導凝膠 (Gel)」？</h4>
+            <p class="text-xs text-slate-400 mt-1">空氣與皮膚的聲學阻抗差了 3000 倍！沒有凝膠，99.9% 的聲波在碰到皮膚表皮的微小空氣隙縫時就全反射反彈了，根本進不去體內。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 4: Grayscale & Acoustic Impedance -->
+    <section class="slide-pane hidden w-full max-w-4xl bg-slate-900 border border-slate-800 rounded-2xl p-8 md:p-12 shadow-2xl relative" data-slide="4">
+      <div class="text-cyan-400 text-xs font-semibold tracking-wider uppercase mb-2">畫面解密篇</div>
+      <h2 class="text-2xl md:text-4xl font-bold text-white mb-4">為什麼超音波只有黑白灰？</h2>
+      <p class="text-slate-300 text-sm md:text-base mb-6">
+        明暗度由組織的<strong>「聲阻抗差（Acoustic Impedance）」</strong>決定。介面兩側密度與剛性差距越大，反彈的回聲越亮！
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <!-- Anechoic -->
+        <div class="p-5 rounded-xl bg-black border border-slate-800 flex flex-col justify-between">
+          <div>
+            <div class="w-full h-12 bg-black border border-slate-700 rounded mb-3 flex items-center justify-center text-xs text-slate-500 font-mono">純黑 (無回聲)</div>
+            <h3 class="text-cyan-300 font-bold text-sm mb-1">無回聲 (Anechoic)</h3>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              <strong>液體介質</strong>（羊水、膽汁、囊腫液、血液）。聲波直接穿透無阻礙，沒有東西反彈回探頭，所以呈純黑色。
+            </p>
+          </div>
+          <span class="text-[11px] text-cyan-500/80 mt-3">典型：膀胱、血管腔、良性囊腫</span>
+        </div>
+
+        <!-- Hypoechoic -->
+        <div class="p-5 rounded-xl bg-slate-800/40 border border-slate-700 flex flex-col justify-between">
+          <div>
+            <div class="w-full h-12 bg-slate-700/60 rounded mb-3 flex items-center justify-center text-xs text-slate-300 font-mono">灰階 (低/中回聲)</div>
+            <h3 class="text-slate-200 font-bold text-sm mb-1">低/中回聲 (Hypoechoic)</h3>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              <strong>實質軟組織</strong>（肝臟、心肌、乳腺間質）。內部有無數微小細胞纖維，部分穿透、部分反彈，呈現細膩的灰階。
+            </p>
+          </div>
+          <span class="text-[11px] text-slate-400 mt-3">典型：心肌壁、肝臟組織、腫瘤本體</span>
+        </div>
+
+        <!-- Hyperechoic -->
+        <div class="p-5 rounded-xl bg-slate-800/40 border border-slate-700 flex flex-col justify-between">
+          <div>
+            <div class="w-full h-12 bg-white rounded mb-3 flex items-center justify-center text-xs text-black font-mono font-bold">純白 (強回聲)</div>
+            <h3 class="text-white font-bold text-sm mb-1">強回聲 (Hyperechoic)</h3>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              <strong>骨骼、結石、鈣化點</strong>。聲阻抗極高，聲波幾乎 100% 被反彈回來，形成極致明亮的白亮邊緣。
+            </p>
+          </div>
+          <span class="text-[11px] text-white/80 mt-3">典型：胎兒頭骨、膽結石、肋骨表面</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 5: Speckle & Shadow -->
+    <section class="slide-pane hidden w-full max-w-4xl bg-slate-900 border border-slate-800 rounded-2xl p-8 md:p-12 shadow-2xl relative" data-slide="5">
+      <div class="text-cyan-400 text-xs font-semibold tracking-wider uppercase mb-2">獨特聲學現象</div>
+      <h2 class="text-2xl md:text-4xl font-bold text-white mb-4">超音波的「特產」：斑點與影子</h2>
+      <p class="text-slate-300 text-sm md:text-base mb-6">
+        初學者看超音波常覺得「滿螢幕都是沙子」或「黑了一大塊」，這些其實是聲學物理的自然印記：
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-slate-800/30 p-5 rounded-xl border border-slate-700">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="text-xl">🧂</span>
+            <h3 class="text-cyan-300 font-bold text-base">斑點噪聲 (Speckle Noise)</h3>
+          </div>
+          <p class="text-xs text-slate-300 leading-relaxed mb-3">
+            畫面上一顆顆像胡椒鹽般的顆粒感，<strong>不是相機受損的隨機雜訊，而是數百萬微小組織回聲互相「同調干涉（Interference）」的結果</strong>！
+          </p>
+          <div class="text-xs bg-slate-900/80 p-2.5 rounded border border-slate-800 text-slate-400">
+            📌 <strong>醫師怎麼用？</strong> 斑點紋理反映了器官健康狀態；心臟超音波甚至透過「追蹤斑點運動（Speckle Tracking）」來精確測量心肌彈性！
+          </div>
+        </div>
+
+        <div class="bg-slate-800/30 p-5 rounded-xl border border-slate-700">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="text-xl">🌑</span>
+            <h3 class="text-amber-300 font-bold text-base">聲學聲影 (Acoustic Shadowing)</h3>
+          </div>
+          <p class="text-xs text-slate-300 leading-relaxed mb-3">
+            當聲波撞到緻密骨頭或高硬度惡性腫瘤時，聲波能量被全數反彈或吸收，導致<strong>後方深部組織完全分不到聲音，留下一道長長的深黑陰影</strong>。
+          </p>
+          <div class="text-xs bg-slate-900/80 p-2.5 rounded border border-slate-800 text-slate-400">
+            📌 <strong>醫師怎麼用？</strong> 在乳腺篩檢（BUSI）中，後方有深黑色聲影是辨識惡性腫瘤（如浸潤性導管癌）的關鍵警訊（BI-RADS）！
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 6: Modality Comparison -->
+    <section class="slide-pane hidden w-full max-w-4xl bg-slate-900 border border-slate-800 rounded-2xl p-8 md:p-12 shadow-2xl relative" data-slide="6">
+      <div class="text-cyan-400 text-xs font-semibold tracking-wider uppercase mb-2">橫向比較篇</div>
+      <h2 class="text-2xl md:text-4xl font-bold text-white mb-4">超音波 vs X光 vs 電腦斷層 (CT) vs 核磁 (MRI)</h2>
+      <p class="text-slate-300 text-sm md:text-base mb-6">
+        沒有任何一種儀器是萬能的，了解它們的互補性才能在臨床上精準發揮：
+      </p>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-xs text-left border-collapse">
+          <thead>
+            <tr class="border-b border-slate-700 bg-slate-800/60 text-slate-200">
+              <th class="p-3 font-semibold">影像模態</th>
+              <th class="p-3 font-semibold">物理媒介</th>
+              <th class="p-3 font-semibold">輻射性</th>
+              <th class="p-3 font-semibold">時間特性</th>
+              <th class="p-3 font-semibold">最大優勢</th>
+              <th class="p-3 font-semibold">主要死穴</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-800 text-slate-300">
+            <tr class="bg-cyan-950/20 text-cyan-200 font-medium">
+              <td class="p-3 font-bold text-cyan-400">超音波 (US)</td>
+              <td class="p-3">高頻機械聲波</td>
+              <td class="p-3 text-emerald-400">無輻射 (最安全)</td>
+              <td class="p-3 text-cyan-300">極速即時 (30~100 fps)</td>
+              <td class="p-3">可攜式、床邊即時、血流動態</td>
+              <td class="p-3 text-rose-300">穿不透骨骼與肺泡氣體、依賴手法</td>
+            </tr>
+            <tr>
+              <td class="p-3 font-semibold text-white">X 光攝影</td>
+              <td class="p-3">游離電磁輻射</td>
+              <td class="p-3 text-amber-400">有微量輻射</td>
+              <td class="p-3">單次瞬時快照</td>
+              <td class="p-3">胸腔骨骼快篩、極便宜</td>
+              <td class="p-3">前後組織重疊、軟組織分辨差</td>
+            </tr>
+            <tr>
+              <td class="p-3 font-semibold text-white">電腦斷層 (CT)</td>
+              <td class="p-3">多角度 X 光切片</td>
+              <td class="p-3 text-rose-400">較高游離輻射</td>
+              <td class="p-3">數秒快速掃描</td>
+              <td class="p-3">全身 3D 快速重組、外傷急救</td>
+              <td class="p-3">無法連續即時監控、孕婦禁用</td>
+            </tr>
+            <tr>
+              <td class="p-3 font-semibold text-white">磁振造影 (MRI)</td>
+              <td class="p-3">強磁場與射頻脈衝</td>
+              <td class="p-3 text-emerald-400">無輻射</td>
+              <td class="p-3">掃描需 20~40 分鐘</td>
+              <td class="p-3">神經與軟組織對比度之王</td>
+              <td class="p-3">費用昂貴、幽閉恐懼、體內有金屬者不可用</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- SLIDE 7: Modern AI Frontier -->
+    <section class="slide-pane hidden w-full max-w-4xl bg-slate-900 border border-slate-800 rounded-2xl p-8 md:p-12 shadow-2xl relative" data-slide="7">
+      <div class="text-cyan-400 text-xs font-semibold tracking-wider uppercase mb-2">前沿科技篇</div>
+      <h2 class="text-2xl md:text-4xl font-bold text-white mb-4">AI 正在如何顛覆超音波？</h2>
+      <p class="text-slate-300 text-sm md:text-base mb-6">
+        超音波受限於「人為操作變異」與「噪聲干擾」，這正是人工智慧大顯身手的舞台（整理自本 Wiki 收錄之最新頂會文獻）：
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="bg-slate-800/40 p-4 rounded-xl border border-slate-800">
+          <div class="text-cyan-400 font-bold text-sm mb-1">心動圖視訊即時評估</div>
+          <div class="text-[11px] text-slate-400 mb-2 font-mono">EchoNet (Nature 2020)</div>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            神經網路直接消化連續心臟動態影片，逐心搏（beat-to-beat）自動精算出心臟射血分數（LVEF），不用醫師費時逐格描點。
+          </p>
+        </div>
+
+        <div class="bg-slate-800/40 p-4 rounded-xl border border-slate-800">
+          <div class="text-cyan-400 font-bold text-sm mb-1">大模型跨器官分割</div>
+          <div class="text-[11px] text-slate-400 mb-2 font-mono">SAMUS (TMI 2023)</div>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            醫師只要在腫瘤上點擊一下，超音波大模型自動辨別邊界，克服斑點雜訊與聲影，精準勾勒出微小腫瘤輪廓。
+          </p>
+        </div>
+
+        <div class="bg-slate-800/40 p-4 rounded-xl border border-slate-800">
+          <div class="text-cyan-400 font-bold text-sm mb-1">突破極限的顯微成像</div>
+          <div class="text-[11px] text-slate-400 mb-2 font-mono">ULM (Nature 2015)</div>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            注射微米級氣泡，利用超快聲波追蹤氣泡質心，打破百年聲學繞射物理極限，看清人腦深處直徑 10 微米的毛細血管網！
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 8: Summary & Interactive Quiz -->
+    <section class="slide-pane hidden w-full max-w-4xl bg-slate-900 border border-slate-800 rounded-2xl p-8 md:p-12 shadow-2xl relative" data-slide="8">
+      <div class="text-cyan-400 text-xs font-semibold tracking-wider uppercase mb-2">總結與小測驗</div>
+      <h2 class="text-2xl md:text-4xl font-bold text-white mb-2">帶走 3 個核心觀念！</h2>
+      <p class="text-slate-300 text-xs md:text-sm mb-4">如果別人問你超音波是什麼，你可以胸有成竹地告訴他：</p>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-6">
+        <div class="p-3 bg-cyan-950/30 border border-cyan-800/40 rounded-lg text-xs text-slate-200">
+          <strong>1. 它是聽聲辨位</strong>：藉由回聲飛行時間算距離，不靠光線更無游離輻射。
+        </div>
+        <div class="p-3 bg-cyan-950/30 border border-cyan-800/40 rounded-lg text-xs text-slate-200">
+          <strong>2. 黑白代表密度阻抗</strong>：液體純黑、骨骼純白、器官軟組織是細緻灰階。
+        </div>
+        <div class="p-3 bg-cyan-950/30 border border-cyan-800/40 rounded-lg text-xs text-slate-200">
+          <strong>3. AI 成為臨床神隊友</strong>：抗噪聲、自動量測心臟功能、導引新手快速上手。
+        </div>
+      </div>
+
+      <!-- Quick Interactive Quiz -->
+      <div class="p-4 bg-slate-800/70 border border-slate-700 rounded-xl">
+        <div class="text-xs font-semibold text-cyan-400 mb-2">💡 隨堂小測驗：為什麼照超音波時，囊腫或膀胱裡的尿液看起來是一片全黑？</div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+          <button onclick="checkQuiz(false)" class="quiz-btn text-left p-2.5 rounded bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 transition">
+            A. 因為液體把光線吸收掉了
+          </button>
+          <button onclick="checkQuiz(true)" class="quiz-btn text-left p-2.5 rounded bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 transition">
+            B. 因為聲波順暢穿透液體，幾乎沒有回聲反彈回來
+          </button>
+          <button onclick="checkQuiz(false)" class="quiz-btn text-left p-2.5 rounded bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 transition">
+            C. 因為儀器故障壞掉了
+          </button>
+          <button onclick="checkQuiz(false)" class="quiz-btn text-left p-2.5 rounded bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 transition">
+            D. 因為骨骼擋在前面造成死角
+          </button>
+        </div>
+        <div id="quizFeedback" class="mt-3 text-xs hidden font-medium"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Bottom Navigation Controls -->
+  <footer class="w-full border-t border-slate-800 bg-slate-900/80 backdrop-blur px-6 py-4 flex items-center justify-between">
+    <div class="text-xs text-slate-400 hidden sm:block">
+      使用鍵盤左右方向鍵 <kbd class="px-1.5 py-0.5 rounded bg-slate-800 border border-slate-700 font-mono text-[11px] text-slate-300">←</kbd> <kbd class="px-1.5 py-0.5 rounded bg-slate-800 border border-slate-700 font-mono text-[11px] text-slate-300">→</kbd> 或下方按鈕翻頁
+    </div>
+
+    <!-- Navigation Buttons -->
+    <div class="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
+      <button id="prevBtn" onclick="prevSlide()" class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium border border-slate-700 disabled:opacity-40 disabled:cursor-not-allowed transition flex items-center gap-1.5">
+        <span>←</span> 上一頁
+      </button>
+
+      <!-- Dot Navigator -->
+      <div id="dotContainer" class="flex items-center gap-1.5"></div>
+
+      <button id="nextBtn" onclick="nextSlide()" class="px-4 py-2 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-medium shadow-lg shadow-cyan-600/20 disabled:opacity-40 disabled:cursor-not-allowed transition flex items-center gap-1.5">
+        下一頁 <span>→</span>
+      </button>
+    </div>
+  </footer>
+
+  <!-- Interactive Slide Controller Script -->
+  <script>
+    let currentSlide = 1;
+    const totalSlides = 8;
+
+    const slides = document.querySelectorAll('.slide-pane');
+    const counter = document.getElementById('slideCounter');
+    const progressBar = document.getElementById('progressBar');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const dotContainer = document.getElementById('dotContainer');
+
+    // Create pagination dots
+    for (let i = 1; i <= totalSlides; i++) {
+      const dot = document.createElement('button');
+      dot.className = `w-2 h-2 rounded-full transition-all duration-300 ${i === 1 ? 'w-6 bg-cyan-400' : 'bg-slate-700 hover:bg-slate-500'}`;
+      dot.onclick = () => goToSlide(i);
+      dotContainer.appendChild(dot);
+    }
+
+    function updateView() {
+      slides.forEach((slide, idx) => {
+        if (idx + 1 === currentSlide) {
+          slide.classList.remove('hidden');
+          slide.classList.add('slide-transition');
+        } else {
+          slide.classList.add('hidden');
+        }
+      });
+
+      counter.textContent = `${currentSlide} / ${totalSlides}`;
+      progressBar.style.width = `${(currentSlide / totalSlides) * 100}%`;
+
+      prevBtn.disabled = currentSlide === 1;
+      nextBtn.disabled = currentSlide === totalSlides;
+
+      // Update dots
+      const dots = dotContainer.children;
+      for (let i = 0; i < dots.length; i++) {
+        if (i + 1 === currentSlide) {
+          dots[i].className = 'w-6 h-2 rounded-full bg-cyan-400 transition-all duration-300';
+        } else {
+          dots[i].className = 'w-2 h-2 rounded-full bg-slate-700 hover:bg-slate-500 transition-all duration-300';
+        }
+      }
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides) {
+        currentSlide++;
+        updateView();
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 1) {
+        currentSlide--;
+        updateView();
+      }
+    }
+
+    function goToSlide(n) {
+      if (n >= 1 && n <= totalSlides) {
+        currentSlide = n;
+        updateView();
+      }
+    }
+
+    // Keyboard navigation
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') {
+        nextSlide();
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        prevSlide();
+      }
+    });
+
+    // Quiz functionality
+    function checkQuiz(isCorrect) {
+      const feedback = document.getElementById('quizFeedback');
+      feedback.classList.remove('hidden');
+      if (isCorrect) {
+        feedback.className = 'mt-3 text-xs p-3 rounded-lg bg-emerald-950/80 border border-emerald-700 text-emerald-300';
+        feedback.innerHTML = '🎉 <strong>完全正確！</strong> 液體介質內部均勻且衰減極小，超音波直接穿透而無界面反射回探頭，所以呈純黑色（無回聲 Anechoic）！';
+      } else {
+        feedback.className = 'mt-3 text-xs p-3 rounded-lg bg-rose-950/80 border border-rose-700 text-rose-300';
+        feedback.innerHTML = '❌ <strong>再想想看！</strong> 超音波是機械聲波，不是光線；液體內部沒有強阻抗界面反彈回聲，所以才會全黑。請看選項 B！';
+      }
+    }
+
+    // Initialize
+    updateView();
+  </script>
+</body>
+</html>
